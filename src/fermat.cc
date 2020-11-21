@@ -1,20 +1,26 @@
-#pragma once
+#ifndef FERMAT
+#define FERMAT
+
 #include <cmath>
 #include <random>
 #include "boost/multiprecision/cpp_int.hpp"
+#include "boost/random.hpp"
 #include "powermod.cc"
 
-std::default_random_engine gen(0);
+typedef boost::multiprecision::uint1024_t uint1024_t;
+boost::random::independent_bits_engine<boost::random::mt19937, 1024, uint1024_t> gen;
 
-typedef boost::multiprecision::uint256_t uint256_t;
-
-bool fermat(uint256_t p, int k) {
-    std::uniform_int_distribution<uint256_t> distribution((uint256_t)(p-1)/(10), p-1);
+bool fermat(uint1024_t p, int k) {
     for (int i = 0; i < k; i++) {
-        uint256_t a = distribution(gen);
+        uint1024_t a = gen();
         if (powermod(a, p-1, p) != 1) {
             return false;
         }
     }
     return true;
 }
+
+int main() {
+    return 0;
+}
+#endif
