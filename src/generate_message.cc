@@ -40,7 +40,4 @@ uint1024_t generate_message(const char* input, int length, int max_bit_length=10
     return base;
 }
 
-int main() {
-    return 0;
-}
 #endif
