@@ -1,0 +1,43 @@
+source: http://crazytechstuffz.blogspot.com/2015/08/rsa-encryptiondecryption-for-longer.html
+
+Encrypting Long Message using N bit RSA
+
+int KEY_LENGTH = N;(change it to key length used for Generating Keys i.e 1024/2048)
+
+byte[] perfomRSAEncryption(PublicKey publicKey , byte[] message) {
+Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
+cipher.init(Cipher.ENCRYPT_MODE , publicKey);
+int  limit = KEY_LENGTH/8 -11;
+int position = 0;
+ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+while(position < message.length) {
+if(message.length - position < limit)
+limit = message.length - position;
+ byte[] data = cipher.doFinal(message , position , limit);
+byteArrayOutputStream.write(data);
+position += limit;
+}
+
+return byteArrayOutputStream.toByteArray();
+}
+
+Decrypting Long Message using N bit RSA
+
+int KEY_LENGTH = N;(change it to key length used for Generating Keys i.e 1024/2048)
+
+byte[] perfomRSADecryption(PublicKey publicKey , byte[] encryptedMessage) {
+Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
+cipher.init(Cipher.DECRYPT_MODE , publicKey);
+int  limit = KEY_LENGTH/8;
+int position = 0;
+ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+while(position < encryptedMessage.length) {
+if(encryptedMessage.length - position < limit)
+limit = encryptedMessage.length - position;
+ byte[] data = cipher.doFinal(encryptedMessage , position , limit);
+byteArrayOutputStream.write(data);
+position += limit;
+}
+
+return byteArrayOutputStream.toByteArray();
+} 
