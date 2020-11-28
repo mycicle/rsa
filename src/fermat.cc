@@ -7,12 +7,12 @@
 #include "boost/random.hpp"
 #include "powermod.cc"
 
-typedef boost::multiprecision::uint1024_t uint1024_t;
-boost::random::independent_bits_engine<boost::random::mt19937, 1024, uint1024_t> gen;
+typedef boost::multiprecision::int1024_t int1024_t;
+boost::random::independent_bits_engine<boost::random::mt19937, 1024, int1024_t> gen;
 
-bool fermat(uint1024_t p, int k) {
+bool fermat(int1024_t p, int k) {
     for (int i = 0; i < k; i++) {
-        uint1024_t a = gen();
+        int1024_t a = gen();
         if (powermod(a, p-1, p) != 1) {
             return false;
         }
@@ -20,7 +20,4 @@ bool fermat(uint1024_t p, int k) {
     return true;
 }
 
-int main() {
-    return 0;
-}
 #endif

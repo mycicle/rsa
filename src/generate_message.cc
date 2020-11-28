@@ -5,9 +5,9 @@
 #include <memory.h>
 #include "boost/multiprecision/cpp_int.hpp"
 
-typedef boost::multiprecision::uint1024_t uint1024_t;
+typedef boost::multiprecision::int1024_t int1024_t;
 
-uint1024_t generate_message(const char* input, int length, int max_bit_length=1024) {
+int1024_t generate_message(const char* input, int length, int max_bit_length=1024) {
     /*
     With a cstring input of length max_bit_length/8 or less (ex: 128 ASCII characters for a max_bit_length of 1024)
     pad the message to the required length (again, 128 for mbl of 1024) and then store that into an mbl precision number 
@@ -30,7 +30,7 @@ uint1024_t generate_message(const char* input, int length, int max_bit_length=10
         input = temp;
     }
     
-    uint1024_t base = 0;
+    int1024_t base = 0;
     for (int i = max_byte_length-1, j=0; i >= 0; i--, j++) {
         int offset = i*8;
         int temp = ((int)input[j]) << offset;
