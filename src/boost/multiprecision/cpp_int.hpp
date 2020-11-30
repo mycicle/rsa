@@ -8,22 +8,22 @@
 
 #include <iostream>
 #include <iomanip>
-#include <boost/cstdint.hpp>
-#include <boost/multiprecision/number.hpp>
-#include <boost/multiprecision/detail/integer_ops.hpp>
-#include <boost/array.hpp>
-#include <boost/type_traits/is_integral.hpp>
-#include <boost/type_traits/is_floating_point.hpp>
-#include <boost/multiprecision/cpp_int/cpp_int_config.hpp>
-#include <boost/multiprecision/rational_adaptor.hpp>
-#include <boost/multiprecision/traits/is_byte_container.hpp>
-#include <boost/detail/endian.hpp>
-#include <boost/integer/static_min_max.hpp>
-#include <boost/type_traits/common_type.hpp>
-#include <boost/type_traits/make_signed.hpp>
-#include <boost/multiprecision/cpp_int/checked.hpp>
+#include <boost\cstdint.hpp>
+#include <boost\multiprecision/number.hpp>
+#include <boost\multiprecision/detail/integer_ops.hpp>
+#include <boost\array.hpp>
+#include <boost\type_traits/is_integral.hpp>
+#include <boost\type_traits/is_floating_point.hpp>
+#include <boost\multiprecision/cpp_int/cpp_int_config.hpp>
+#include <boost\multiprecision/rational_adaptor.hpp>
+#include <boost\multiprecision/traits/is_byte_container.hpp>
+#include <boost\detail/endian.hpp>
+#include <boost\integer/static_min_max.hpp>
+#include <boost\type_traits/common_type.hpp>
+#include <boost\type_traits/make_signed.hpp>
+#include <boost\multiprecision/cpp_int/checked.hpp>
 #ifdef BOOST_MP_USER_DEFINED_LITERALS
-#include <boost/multiprecision/cpp_int/value_pack.hpp>
+#include <boost\multiprecision/cpp_int/value_pack.hpp>
 #endif
 
 namespace boost{
