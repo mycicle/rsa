@@ -11,7 +11,7 @@ int gcd(int a, int b) {
         if(t==0)
             return b;
         a = b;
-        b= t;
+        b = t;
     }
 }
 int main() {
