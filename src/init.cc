@@ -66,8 +66,6 @@ L = (p-1)(q-1)
 n = pq
 */
 #define MODULUS_SIZE 2048
-#define BLOCK_SIZE (MODULUS_SIZE/8) // size of a block that gets encrypted or decrypted at once
-                                    // also the number of bytes in the modulus
 #define BUFFER_SIZE ((MODULUS_SIZE/8) / 2) // number of bytes in n and p
 
 typedef struct {
@@ -118,21 +116,21 @@ void gen_random_prime(mpz_t &e, mpz_t &output) {
 
 private_key gen_private_key() {
     private_key priv;
-
+    mpz_init(priv.p); mpz_init(priv.q);
+    mpz_init(priv.d); mpz_init(priv.e);
+    mpz_init(priv.L); mpz_init(priv.n);
     // set private key according to common convention, works for me! 
-    mpz_t e;
-    mpz_init(e);
-    mpz_set_ui(priv.e, 65537); // https://www.di-mgt.com.au/rsa_alg.html
+    mpz_set_ui(priv.e, 257); // https://www.di-mgt.com.au/rsa_alg.html
 
     mpz_t p; 
     mpz_t q;
     mpz_init(p);
     mpz_init(q);
 
-    gen_random_prime(e, p);
+    gen_random_prime(priv.e, p);
 
     do {
-        gen_random_prime(e, q);
+        gen_random_prime(priv.e, q);
     } while(mpz_cmp(p, q) == 0); // if p and q are the same, then generate q again
 
     mpz_set(priv.p, p);
@@ -169,6 +167,8 @@ private_key gen_private_key() {
 
 public_key gen_public_key(const private_key &priv) {
     public_key pub;
+    mpz_init(pub.e); mpz_init(pub.n);
+
     mpz_set(pub.e, priv.e);
     mpz_set(pub.n, priv.n);
 
@@ -176,17 +176,16 @@ public_key gen_public_key(const private_key &priv) {
 }
 
 void write_public_key(const public_key &pub, const char* filepath) {
-    std::ofstream f;
-    f.open(filepath);
-    f << 'e' << '\t' << 'n' << '\n';
+    std::ofstream f(filepath);
+    f << "bits" << '\t' << 'e' << '\t' << 'n' << '\n';
+    f << MODULUS_SIZE << '\n';
     f << mpz_get_str(NULL, 10, pub.e) << '\n';
     f << mpz_get_str(NULL, 10, pub.n) << '\n';
     f.close();
 }
 
 void write_private_key(const private_key &priv, const char* filepath) {
-    std::ofstream f;
-    f.open(filepath);
+    std::ofstream f(filepath);
     f << 'p' << '\t' << 'q' << '\t' << 'd' << '\t' << 'e' << '\t' << 'L' << '\t' << 'n' << '\n';
     f << mpz_get_str(NULL, 10, priv.p) << '\n';
     f << mpz_get_str(NULL, 10, priv.q) << '\n';
