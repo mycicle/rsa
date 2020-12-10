@@ -5,27 +5,19 @@
 #include <iostream>
 #include <string.h>
 
+#include "utils.cc"
 using namespace std;
-
 /*
     need to do 
     string message => numerical message
 
     c = m^e mod n
 */
-
-
-
 typedef struct {
     unsigned int bits;
     unsigned int e;
     std::string n;
 } public_information;
-
-typedef struct {
-    mpz_t e;    // public exponent
-    mpz_t n;    // modulus
-} public_key; 
 
 public_information get_pubilc_info(const char* filepath) {
     public_information output;
@@ -54,8 +46,8 @@ void encrypt(mpz_t &c, mpz_t &m, public_key &pub) {
 int main(int argc, char *argv[]) {
 
     public_information info = get_pubilc_info("public.txt");
-    const unsigned int MODULUS_SIZE = info.bits;
-    const unsigned int BLOCK_SIZE = (MODULUS_SIZE/8);
+    const unsigned int mod_size = info.bits;
+    const unsigned int block_size = (mod_size/8);
     
     public_key pub;
     mpz_init(pub.e);
@@ -84,45 +76,4 @@ int main(int argc, char *argv[]) {
     for (string line : ciphertext) {
         f << line << '\n';
     }
-
-    // mpz_import(m, length, 1, sizeof(ciphertext[0]), 0, 0, message);
-    // // cout << mpz_get_str(NULL, 10, m) << endl;
-
-    // encrypt(c, m, pub);
-
-    // mpz_export(ciphertext, NULL, 1, sizeof(ciphertext[0]), 0, 0, c);
-
 }
-
-// int main() {
-
-//     ifstream f("public.txt");
-
-//     vector<string> lines;
-//     int counter = 0;
-
-//     for(int i = 0; i < 3; i++) {
-//         string line = "";
-//         if (i == 0) {
-//             getline(f, line);
-//             continue;
-//         }
-//         getline(f, line);
-//         lines.push_back(line);
-//     }
-
-//     const unsigned int bits = stoi(lines[0]);
-//     const unsigned int e1 = stoi(lines[1]);
-
-//     cout << bits << endl;
-//     cout << e1 << endl;
-
-//     const char* input = "Hello there, GENERAL KENOBI!";
-//     mpz_t e;
-//     mpz_t m;
-//     mpz_init(e);
-//     mpz_init(m);
-
-//     mpz_set_ui(e, e1);
-//     mpz_set_ui(m);
-// }

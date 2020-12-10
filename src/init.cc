@@ -4,83 +4,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <gmp.h>
+
 #include "utils.cc"
-/*
-OK  here is how RSA works
-
-Message: HELLO
-Public: encryption:  keys = (5, 14)
-Private: Decryption: keys = (11, 14)
-
-Lets say that HELLO encodes to the number 2 somehow (math)
-
-( Message ^ 5 ) mod 14 = 4       4 = encrypted message
-
-( 4 ^ 11 ) mod 14 = 2       2 = decrypted message
-
-so how are (5, 14) realted to (11, 14) ?
-
-pick two prime numbers: 2, 7
-p = 2
-q = 7
-
-n = p*q = 14
-
-now make a list between 1 and 14 and remove the common factors, the length of that list is 6
-the easy way to get L = 6 is
-
-L = (q-1)*(p-1) = 6 = L
-
-
-now we get to pick the enxryption key
-in the example it was (5, 14) and we know that 14 is the modulus = n
-
-the enctyption key must be between 1 and L = 6
-so that cuts it to [2, 3, 4, 5]
-
-It also has to be coprime with L=6 and the modulus=n=14, so the answer has to be 5 in this case
-
-So now we have (5, 14) = (e, n)
-
-Now onto the decryption part, how did we pick (11, 14)
-14 is the modulus but where is 11 from?
-
-lets call 11 d, 11 = d
-
-d has to follow one rule:
-(d*e) mod (L) = 1
-so D can be any number of those numbers that fits the conditions
-
-
-so symbolically
-
-MESSAGE: m
-public_key: (e, n)
-private_key: (d, n)
-
-ciphertext = c = (m^e) mod n
-
-m = (c^d) mod n
-(d*e) mod L = 1
-L = (p-1)(q-1)
-n = pq
-*/
-#define MODULUS_SIZE 2048
-#define BUFFER_SIZE ((MODULUS_SIZE/8) / 2) // number of bytes in n and p
-
-typedef struct {
-    mpz_t e; // public exponent
-    mpz_t n; // modulus
-} public_key;
-
-typedef struct {
-    mpz_t p; // p
-    mpz_t q; // q
-    mpz_t L; // (p-1)*(q-1)
-    mpz_t n; // p*q
-    mpz_t d; // d*e mod L = 1
-    mpz_t e; // public exponent
-} private_key;
 
 void gen_random_prime(mpz_t &e, mpz_t &output) {
     mpz_t t1;
