@@ -51,7 +51,7 @@ void encrypt(mpz_t &c, mpz_t &m, public_key &pub) {
     mpz_powm(c, m, pub.e, pub.n);
 }
 
-int main() {
+int main(int argc, char *argv[]) {
 
     public_information info = get_pubilc_info("public.txt");
     const unsigned int MODULUS_SIZE = info.bits;
@@ -69,7 +69,8 @@ int main() {
     mpz_init(c);
     mpz_init(m);
 
-    char message[] = "Hello there, GENERAL KENOBI!";
+    char *message = argv[1];
+    // char message[] = "Hello there, GENERAL KENOBI!";
     int length = strlen(message);
     vector<string> ciphertext;
     for (int i = 0; i < length; i++) {
