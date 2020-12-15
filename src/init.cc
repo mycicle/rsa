@@ -78,7 +78,7 @@ private_key gen_private_key() {
     // and now we need d, where d^e mod L = 1
     // since d * C = 1, d is the mutliplicative inverse of C
     // where C = e mod L
-    // Calculate d (multiplicative inverse of e mod phi)
+    // Calculate d (multiplicative inverse of e mod L)
     // https://stackoverflow.com/questions/38155864/understanding-mpz-invert
     if(mpz_invert(priv.d, priv.e, priv.L) == 0)
     {
