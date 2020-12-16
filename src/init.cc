@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <gmp.h>
+#include <chrono>
 
 #include "utils.cc"
 
@@ -122,9 +123,12 @@ void write_private_key(const private_key &priv, const char* filepath) {
 }
 
 int main() {
+    auto start = std::chrono::high_resolution_clock::now();
     private_key priv = gen_private_key();
     public_key pub = gen_public_key(priv);
-    
+    auto stop = std::chrono::high_resolution_clock::now();
+
+    std::cout << "Keygen Time: " << std::chrono::duration_cast<std::chrono::microseconds>((stop-start)).count() << '\n';
     write_public_key(pub, "public.txt");
     write_private_key(priv, "private.txt");
 

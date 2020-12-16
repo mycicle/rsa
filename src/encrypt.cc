@@ -4,6 +4,7 @@
 #include <fstream>
 #include <iostream>
 #include <string.h>
+#include <chrono>
 
 #include "utils.cc"
 using namespace std;
@@ -64,6 +65,7 @@ int main(int argc, char *argv[]) {
     char *message = argv[1];
     // char message[] = "Hello there, GENERAL KENOBI!";
     int length = strlen(message);
+    auto start = std::chrono::high_resolution_clock::now();
     vector<string> ciphertext;
     for (int i = 0; i < length; i++) {
 
@@ -71,9 +73,11 @@ int main(int argc, char *argv[]) {
         mpz_powm(c, m, pub.e, pub.n);
         ciphertext.push_back(mpz_get_str(NULL, 10, c));
     }
-
+    auto stop = std::chrono::high_resolution_clock::now();
     std::ofstream f("message.txt");
     for (string line : ciphertext) {
         f << line << '\n';
     }
+
+    std::cout << "Encrypt Time: " << std::chrono::duration_cast<std::chrono::microseconds>((stop-start)).count() << '\n';
 }

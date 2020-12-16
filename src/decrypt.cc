@@ -3,7 +3,7 @@
 #include <vector>
 #include <string>
 #include <fstream>
-
+#include <chrono>
 #include "utils.cc"
 
 void get_private_key(private_key &pk, const char* filepath) {
@@ -47,11 +47,13 @@ int main() {
     mpz_init(pk.n);
 
     get_private_key(pk, "private.txt");
-
+    auto start = std::chrono::high_resolution_clock::now();
     std::vector<std::string> message = decrypt_message(pk, "message.txt");
+    auto stop = std::chrono::high_resolution_clock::now();
 
     for (std::string character : message) {
         std::cout << char(stoi(character));
     }
+    std::cout << "\nDecrypt Time: " << std::chrono::duration_cast<std::chrono::microseconds>((stop-start)).count() << '\n';
     std::cout << std::endl;
 }
